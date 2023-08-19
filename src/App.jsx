@@ -88,12 +88,8 @@ function App() {
       </button>
       {settingsOpen && (
         <div className="absolute w-full h-full bg-white p-4">
-          <button onClick={() => setSettingsOpen(false)}>Закрыть</button>
           <button className="mt-4 bg-gray-400 px-4 py-2 rounded-md text-white w-full flex items-center gap-2">
             Очистить контекст
-          </button>
-          <button className="mt-4 bg-gray-400 px-4 py-2 rounded-md text-white w-full flex items-center gap-2">
-            Сменить модель
           </button>
         </div>
       )}
