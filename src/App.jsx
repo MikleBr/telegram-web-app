@@ -1,6 +1,6 @@
 function App() {
   // tg.initDataUnsafe.user.first_name
-  const clientPhoto = window.Telegram.WebApp.initDataUnsafe.user.first_name;
+  const clientPhoto = '';
 
   return (
     <div className="bg-white flex flex-col items-center h-full max-w-[420px] w-[calc(100%-32px)] mx-auto">
