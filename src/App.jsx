@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
 
 function App() {
@@ -8,7 +8,24 @@ function App() {
     last_name: 'test',
   };
 
+  const [model, setModel] = useState(false);
+
   const [settingsOpen, setSettingsOpen] = useState(false);
+
+  useEffect(() => {
+    const onClickBack = () => setSettingsOpen(false);
+    if (settingsOpen) {
+      window.Telegram?.WebApp?.BackButton?.show();
+      window.Telegram?.WebApp?.BackButton?.onClick(onClickBack);
+    } else {
+      window.Telegram?.WebApp?.BackButton?.hide();
+      window.Telegram?.WebApp?.BackButton?.offClick(onClickBack);
+    }
+  }, [settingsOpen]);
+
+  const onClickSettings = () => {
+    setSettingsOpen(true);
+  };
 
   return (
     <div className="bg-white flex flex-col items-center h-full max-w-[420px] w-[calc(100%-32px)] mx-auto">
@@ -24,16 +41,28 @@ function App() {
           {telegramUser.first_name} {telegramUser.last_name}
         </p>
       </div>
-      <div className="w-full mt-2 rounded-md text-white bg-indigo-500 p-4 gap-2 flex flex-col">
-        <div className="font-semibold">Подписка: Premium</div>
-        <div>Активна: до 17 сент. 2023 г.</div>
+      <div className="w-full mt-2 shadow-lg rounded-md text-white bg-indigo-500 p-4 gap-2 flex flex-col">
+        <div className="font-semibold text-lg">PREMIUM</div>
+        <div>до 17 сент. 2023 г.</div>
       </div>
+      <button
+        onClick={() => setModel(prev => !prev)}
+        className="mt-4 relative bg-gray-400 px-4 py-2 rounded-md text-white w-full flex items-center gap-2"
+      >
+        <div
+          className={`bg-gray-600 absolute top-1 w-1/2 ${
+            model ? 'left-1' : 'left-[calc(50%-4px)]'
+          } transition-all rounded-md h-[calc(100%-8px)]`}
+        />
+        <div className="w-1/2 text-center z-10">GTP 3.5</div>
+        <div className="w-1/2 text-center z-10">GTP 3.5 Turbo</div>
+      </button>
       <div className="w-full mt-4">
         <div className="font-medium">Лимиты на сегодня:</div>
         <div>
           Сообщения:{' '}
           <span className="bg-indigo-500 text-white px-2 py-0.5 rounded-md">
-            0 / 100
+            {model ? '0 / 100' : '10/50'}
           </span>
         </div>
         <div className="font-medium mt-2">Лимиты на месяц:</div>
@@ -52,7 +81,7 @@ function App() {
         </div>
       </div>
       <button
-        onClick={() => setSettingsOpen(true)}
+        onClick={onClickSettings}
         className="mt-4 bg-gray-400 px-4 py-2 rounded-md text-white w-full flex items-center gap-2"
       >
         <FiSettings /> Настройки
@@ -60,16 +89,10 @@ function App() {
       {settingsOpen && (
         <div className="absolute w-full h-full bg-white p-4">
           <button onClick={() => setSettingsOpen(false)}>Закрыть</button>
-          <button
-            onClick={() => setSettingsOpen(true)}
-            className="mt-4 bg-gray-400 px-4 py-2 rounded-md text-white w-full flex items-center gap-2"
-          >
+          <button className="mt-4 bg-gray-400 px-4 py-2 rounded-md text-white w-full flex items-center gap-2">
             Очистить контекст
           </button>
-          <button
-            onClick={() => setSettingsOpen(true)}
-            className="mt-4 bg-gray-400 px-4 py-2 rounded-md text-white w-full flex items-center gap-2"
-          >
+          <button className="mt-4 bg-gray-400 px-4 py-2 rounded-md text-white w-full flex items-center gap-2">
             Сменить модель
           </button>
         </div>
