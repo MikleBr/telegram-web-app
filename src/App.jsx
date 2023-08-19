@@ -10,6 +10,11 @@ function App() {
 
   const [model, setModel] = useState(false);
 
+  const onToggleModel = () => {
+    setModel(prev => !prev);
+    window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+  };
+
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
@@ -46,7 +51,7 @@ function App() {
         <div>до 17 сент. 2023 г.</div>
       </div>
       <button
-        onClick={() => setModel(prev => !prev)}
+        onClick={onToggleModel}
         className="mt-4 relative bg-gray-400 px-4 py-2 rounded-md text-white w-full flex items-center gap-2"
       >
         <div
